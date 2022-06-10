@@ -11,6 +11,7 @@ import 'package:flutter_application_6/screens/espace_client/dep.dart';
 import 'package:flutter_application_6/screens/espace_client/inscription_connexion.dart';
 import 'package:flutter_application_6/screens/espace_client/page_agences.dart';
 import 'package:flutter_application_6/screens/espace_client/page_changeL.dart';
+import 'package:flutter_application_6/screens/espace_client/page_profile.dart';
 import 'package:flutter_application_6/screens/espace_client/pagefiltre.dart';
 import 'package:flutter_application_6/screens/espace_client/pages_favoris.dart';
 import 'package:flutter_application_6/screens/espace_client/switching_page.dart';
@@ -128,6 +129,7 @@ var user ;
                    : InkWell(
                    onTap: (){
                      print("voir le profil");
+                     Navigator.push(context,MaterialPageRoute(builder: (context) =>profile()));
                    },
                    child: 
                    Text(user['name'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 17),)
@@ -454,7 +456,8 @@ var user ;
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
-                          setState(() {
+                          setState(()  {
+                           
                             deconnexion();
                             agence_conncet=false;
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>switching_page()));

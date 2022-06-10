@@ -52,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with AfterLayoutMixin<Wel
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Center(
-        child: new Text('Loading...'),
+        child: Image.asset('assets/splash_screen1.png'),
       ),
     );
   }
@@ -60,9 +60,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> with AfterLayoutMixin<Wel
 
 _buildFullScreenImage(){
   return Container(
+    height: 400,
+    width:300,
    // margin: const EdgeInsets.all(22),
-    margin: EdgeInsets.only(top: 55,  ),
-    child: Image.asset('assets/introscreen1.png',
+    margin: EdgeInsets.only(top: 170,  ),
+    child: Image.asset('assets/splash_screen1.png',
     fit: BoxFit.contain,
     //height: double.infinity,
    // width: double.infinity,
@@ -72,7 +74,7 @@ alignment: Alignment.topCenter,));
 
 _buildImage(
   
-  String assetName, [double width = 350]){
+  String assetName, [double width = 350 , ]){
   return Image.asset('assets/$assetName',width: width,);
 }
 
@@ -105,15 +107,16 @@ class IntroScreen extends StatelessWidget {
         globalBackgroundColor: Colors.white,        
         globalHeader: Align(
           alignment: Alignment.topCenter,
-          child: Padding(padding: const EdgeInsets.only(top: 16,),
-          child: _buildImage('logoImran.png',250),),
+          child: Padding(padding: const EdgeInsets.only(top: 30,),
+          child: _buildImage('logo_splash_screen.png',150),),
         
         ),
         pages: [  
              
           PageViewModel(
             title: "Welcome to IMRAN \n Bienvenue à IMRAN \nمرحبا بكم في عمران",
-            body: "Text in English ...\n Texte en français ...\n Text en Arabe ...",           
+            body: " ",           
+            
             image: _buildFullScreenImage(),
             decoration: pageDecoration.copyWith(contentMargin: const EdgeInsets.symmetric(horizontal: 16),
            // fullScreen: true,
@@ -124,14 +127,14 @@ class IntroScreen extends StatelessWidget {
             ),
           ),
           PageViewModel(
-            title: '2 Page ....',
-            body:"Text in English ...\n Texte en français ...\n Text en Arabe ...",   
-            image: _buildImage('introscreen2.png'),
+            title: '',
+            body:"Contact the best real estate agencies\nContacter les meilleures agences immobilières\nتواصل مع أفضل الوكالات العقارية",   
+            image: _buildImage('splach_screen2.png'),
             decoration: pageDecoration,
           ),
-          PageViewModel(title: '3 Page',
-          body:"Text in English ...\n Texte en français ...\n Text en Arabe ...",   
-          image: _buildImage('introscreen4.png'),
+          PageViewModel(title: '',
+          body:"Imran your partner in Choice\nImran votre Partenaire\nعمران شريكك في الاختيار",   
+          image: _buildImage('splash_screen3.png'),
           decoration: pageDecoration,), 
         ],
         onDone: () async { 

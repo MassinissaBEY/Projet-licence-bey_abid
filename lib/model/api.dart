@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'variables.dart';
 
 class Api {
-  final String _baseUrl = 'http://192.168.137.68:8000/api';
-  final String _baseUrl2 = 'http://192.168.137.68:8000/user/';
+  final String _baseUrl = 'http://192.168.43.170:8000/api';
+  final String _baseUrl2 = 'http://192.168.43.170:8000/user/';
   //if you are using android studio emulator, change localhost to 10.0.2.2
   //var token;
 

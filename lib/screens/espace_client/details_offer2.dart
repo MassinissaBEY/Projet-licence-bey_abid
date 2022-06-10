@@ -98,7 +98,7 @@ class _OfferDetailsState extends State<OfferDetailsView2> {
            Expanded(child:  SizedBox(),),
             Icon(Icons.phone,color: Colors.white,),
             SizedBox(width: 10,),
-            Text("Telephone",style:  TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+            Text(Languages.of(context).tel,style:  TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
           Expanded(child:  SizedBox(),)
           ],),
         )),
@@ -140,7 +140,7 @@ query:
             Expanded(child:  SizedBox(),),
             Icon(Icons.email,color: Colors.white,),
             SizedBox(width: 10,),
-            Text("Email",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+            Text(Languages.of(context).email,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
            Expanded(child:  SizedBox(),)
           ],),
         )),
@@ -202,7 +202,7 @@ query:
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
            
-     offer['images'].isEmpty ? Container(height: 20, width: 20,color: Colors.red,)  :display_images(),
+     offer['images'].isEmpty ? Container(height: 20, width: 20,child:Center(child: Text(Languages.of(context).loffre_ne_contient),))  :display_images(),
 
            // display_images()   ,
            
@@ -226,8 +226,8 @@ query:
                   Text(offer['category']['Name_fr'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
                   :LGG=="Arabe"?
                   Text(offer['category']['Name_ar'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
-                  :null
-                  :null
+                  :Container()
+                  :Container()
               ],),
 
               SizedBox(height: 10,),

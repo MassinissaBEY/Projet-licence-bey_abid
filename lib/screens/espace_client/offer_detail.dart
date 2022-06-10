@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_6/localization/language/languages.dart';
 import 'package:flutter_application_6/model/api.dart';
@@ -194,22 +191,26 @@ query:
   }
 
   Widget _buildFormFields() {
-    return   Container(
-      margin: EdgeInsets.only(left: 0.0, right: 0.0, bottom: 80.0),
+    return   
+    /////////////////////////////////////////////////////////////////
+    Container(
+      margin: EdgeInsets.only(left: 0.0, right: 0.0, bottom: 0.0),
       child: SingleChildScrollView(
         child: Column(
           
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
            
-     offer['images'].isEmpty ? Container(height: 20, width: 20,color: Colors.red,)  :display_images(),
+     offer['images'].isEmpty ? Container(height: 20, width: 20,child: Center(child: Text(Languages.of(context).loffre_ne_contient),),)  :display_images(),
 
            // display_images()   ,
            
            SizedBox(height: 20,),
 
-                
-           Row(children: [
+
+
+                          
+            Row(children: [
               
            offer['vente']==null?
                    Container(margin: EdgeInsets.only(left: 20, right: 20),
@@ -219,21 +220,23 @@ query:
               child: Text(Languages.of(context).vente,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
               ),
                
-               offer['category_id']==1?
+             
                LGG=="English"?
                   Text(offer['category']['Name'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
                   :LGG=="Français"?
                   Text(offer['category']['Name_fr'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
                   :LGG=="Arabe"?
                   Text(offer['category']['Name_ar'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
-                  :null
-                  :null
+                  :Container()
+                  
               ],),
+
+
 
               SizedBox(height: 10,),
            Row(children: [
               Container(margin: EdgeInsets.only(left: 20, right: 20),
-              child: Text(offer['price'].toString()+"  DA",style: TextStyle(color: Colors.greenAccent,fontSize: 20,fontWeight: FontWeight.w500),),
+              child: Text(offer['price'].toString()+"  "+Languages.of(context).da,style: TextStyle(color: Colors.greenAccent,fontSize: 20,fontWeight: FontWeight.w500),),
               ),
        Expanded(child: SizedBox()),
            IconButton(
@@ -1088,7 +1091,7 @@ showModalBottomSheet(
                    child: Row(
                    mainAxisAlignment: MainAxisAlignment.start,
                    children: [ 
-                     Text("Vues",style: TextStyle(fontWeight: FontWeight.w300),),
+                     Text(Languages.of(context).vus,style: TextStyle(fontWeight: FontWeight.w300),),
                      Expanded(child: SizedBox()),
                      Column(children: [
                      Text(offer['counter_vues'].toString(),style: TextStyle(fontWeight: FontWeight.w700),),
@@ -1096,7 +1099,56 @@ showModalBottomSheet(
                      ],)
                      ],)
                      ),   
-                     
+
+                     SizedBox(height: 30,),
+
+
+                     InkWell(
+                       onTap: (){
+                   return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Signaler l\'offre'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('Voulez vous vraiment signaler cette offre?'),
+             // Text('Would you like to approve of this message?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Row(children: [
+          TextButton(
+            child: const Text('Non'),
+            onPressed: () {
+      Navigator.of(context).pop();
+            },
+          ),
+         Expanded(child:  SizedBox()),
+          TextButton(
+            child: const Text('Oui'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          ],)
+        ],
+      );
+    },
+  );},
+                       
+                       child:
+                      Container(
+                        color: Color.fromARGB(75, 228, 224, 224),
+                               height: 60,
+                               child: Center(child: Icon(Icons.report, color: Colors.grey,),),
+                             ),
+
+                     ),
+                             SizedBox(height: 10,)   
                                  
                 ],
               ),

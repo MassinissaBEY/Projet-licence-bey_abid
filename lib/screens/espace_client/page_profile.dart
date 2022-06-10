@@ -1,55 +1,83 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_application_6/localization/language/languages.dart';
 import 'package:flutter_application_6/model/api.dart';
-import 'package:flutter_application_6/screens/offers_of_user.dart';
+import 'package:flutter_application_6/model/variables.dart';
+import 'package:flutter_application_6/screens/espace_client/modify_profile.dart';
 import 'package:flutter_application_6/widgets/header_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-
-
-
-
-
-class agence_profile extends StatefulWidget {
- 
+ class profile extends StatefulWidget {
+  const profile({ Key key }) : super(key: key);
 
   @override
-  State<agence_profile> createState() => _agence_profileState();
-   final int user_id;
-  agence_profile({this.user_id});
+  State<profile> createState() => _profileState();
 }
 
-class _agence_profileState extends State<agence_profile> {
-   void initState() {
-    super.initState();
-    _loadprofile();
+class _profileState extends State<profile> {
+
+
+ void initState(){
+     
+    super.initState();  
+   loadprofile();
   }
-  var user;
-  int user_id;
+
+var user;
+
   @override
   Widget build(BuildContext context) {
-    return 
-    Scaffold(
-      backgroundColor: Colors.white,
-     
-      body:
-      SingleChildScrollView(
+    return Scaffold(
+    
+            backgroundColor: Colors.white,
+            resizeToAvoidBottomInset: false,
+            body:
+            SingleChildScrollView(child: 
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                  height: 80,
+                  //color: Colors.red,),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/top_bar.png"),
+                        fit: BoxFit.cover
+                      ),
+                      //color: Color(0xffE5E7F3),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(0.0),
+                        bottomRight: Radius.circular(0.0),
+                      ))
+                      ),
+             
+
+           SingleChildScrollView(
         child:
       Column(children: [
 
 
   Stack(children: [
-
-            Container(
-              height: 200,
-              child: HeaderWidget(200,false),
-            ),
-
+    
+    Container(
+      margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.87,
+      right: 20
+      ),
+      child:
+      InkWell(
+        onTap: () {
+          Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                             
+                                              modfy_profile(user_id: user['id'])
+                                              ));
+        },
+        child:
+      Icon(Icons.edit),),          
+    ),
             Container(
               
-              margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            
               alignment: Alignment.center,
               child: 
            
@@ -144,7 +172,7 @@ class _agence_profileState extends State<agence_profile> {
                               SizedBox(width: 20,),
                              Flexible(child: 
                              user != null ?   Text(user['adresse'].toString(),style: TextStyle(color: Color.fromARGB(255, 2, 62, 138),fontSize: 18),)
-                             :Text(Languages.of(context).loading)
+                             :Text("Loading...")
                              )
                             ],)
                          ),
@@ -152,16 +180,8 @@ class _agence_profileState extends State<agence_profile> {
 
                                 SizedBox(height: 20,),
 
-                         Container(
-                           margin: EdgeInsets.only(left: 20,right: 20),
-                           child:
-                            Row(children: [
-                              Icon(Icons.campaign_outlined, color: Color.fromARGB(255, 2, 62, 138),size: 25,),
-                              SizedBox(width: 20,),
-                             user != null ?   Text(user['offer'].length.toString()+" annonces",style: TextStyle(color: Color.fromARGB(255, 2, 62, 138),fontSize: 18),)
-                             :Text(Languages.of(context).loading)
-                            ],)
-                         ),
+                        
+                         
                          SizedBox(height: 20,),
 
                          Container(
@@ -171,20 +191,7 @@ class _agence_profileState extends State<agence_profile> {
 
                             SizedBox(height: 40,),
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                       TextButton(onPressed: (){
-                  Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      offer_of_user(user_id: user['id'] , user_name: user['name'])));
-            }, 
-            
-            child: 
-            Text(Languages.of(context).voir_les_offres_de),),
-                            ],),
+                           
 
                       ])
 
@@ -193,41 +200,74 @@ class _agence_profileState extends State<agence_profile> {
       
         ])
       )
-        );
+
+
+                ]))
+              
+    );
+
+
+  }
+
+
+
+
+
+   loadprofile () async{
       
-        
+       SharedPreferences pref = await SharedPreferences.getInstance();         
+         token = await pref.getString('token');
+         
+              
+
+      var data = new Map<String, dynamic>();
+            if (token != null && token.length > 0) {
+  token = token.substring(1, token.length - 1);
+}
+
     
-  }
+ 
+      
+         print(token);
+        data['token'] = token;
 
-
-
-
-
-  _loadprofile() async {
      
-    var response = await Api().getData('/user/' + widget.user_id.toString());
-    
-    if (response.statusCode == 200) {
-      setState(() {
-        user = json.decode(response.body);
-       print(user);
        
+
+
+
+       
+ Future.delayed(Duration(milliseconds: 50)).then((_) async{
+
+   var response = await Api().postData(data,'/find_user');
     
+      if (response.statusCode == 200){
         
+      final body = jsonDecode(response.body);
+      setState(() {
+        user = body;
       });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Error ' + response.statusCode.toString() + ': ' + response.body),
-      ));
+      
+       print(body.toString());
+      if(body['agence']!=null){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+            saugarder_agence();
+           prefs.setBool('bool_agence',true);
+      }
+    }else{
+       
+        deconnexion ();
+        check_agence_connenct();
+        check_client_conncet();
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('bool_agence',false);
+         Future.delayed(Duration(milliseconds: 10)).then((_) {
+      
+         });
+        
     }
-
+ });
+  
    
-  }
-
-
-
-
-
-
+   }
 }

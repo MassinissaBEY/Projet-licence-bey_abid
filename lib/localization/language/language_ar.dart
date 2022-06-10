@@ -393,4 +393,28 @@ class LanguageAr extends Languages {
   // TODO: implement title_of_offer
   String get title_of_offer => "عنوان العرض";
 
+  @override
+  // TODO: implement infos_parag1
+  String get infos_parag1 => "هل تبحث عن وكالة في ولايتك أو مدينتك ؟ ستجد في عمران جميع تفاصيل الاتصال بالوكالات ومكاتب الأعمال المتخصصة في المعاملات العقارية في مدينتك  أو دائرتك أو بلديتك. اطلع على آلاف إعلانات المبيعات والشراء";
+
+  @override
+  // TODO: implement infos_parag2
+  String get infos_parag2 => "يمكنك الاتصال بوكالة عقارية مباشرة على عمران لبدء عملية شراء أو بيع أو استئجار شقة أو منزل";
+
+  @override
+  // TODO: implement voir_plus_de
+  String get voir_plus_de => "انظر المزيد من التفاصيل";
+
+  @override
+  // TODO: implement voir_les_offres_de
+  String get voir_les_offres_de =>"انظر عروض هذه الوكالة";
+
+  @override
+  // TODO: implement loffre_ne_contient
+  String get loffre_ne_contient => "العرض لا يحتوي على صورة";
+
+  @override
+  // TODO: implement chercher
+  String get chercher => throw UnimplementedError();
+
 }

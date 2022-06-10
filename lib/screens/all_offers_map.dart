@@ -3,7 +3,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_6/localization/language/languages.dart';
 import 'package:flutter_application_6/model/api.dart';
+import 'package:flutter_application_6/model/variables.dart';
 import 'package:flutter_application_6/screens/espace_client/offer_detail.dart';
 import 'package:flutter_application_6/screens/espace_client/switching_page.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -94,6 +96,7 @@ Future<void> _getUserLocation() async {
   //  _setPosition(LatLng(null,null));
   
     print(_offers);
+    func ();
      
   }
 
@@ -114,8 +117,8 @@ int id;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Maps View'),
-        backgroundColor: Color.fromARGB(255, 73, 80, 87),
+        title:  Text(Languages.of(context).map),
+        backgroundColor: Color.fromARGB(255, 2, 62, 138),
         
       ),
       
@@ -159,7 +162,7 @@ int id;
             Row(children: [
               Icon(Icons.map,color: Colors.white,),
               SizedBox(width: 5,),
-              Text("View list",style: TextStyle(color: Colors.white),)
+              Text(Languages.of(context).list,style: TextStyle(color: Colors.white),)
             ],),)
               )
             ],)
@@ -235,13 +238,29 @@ int id;
             child:Text(widget.offers[index]['title'].toString(), style: TextStyle(fontSize: 32),)),
 
             SizedBox(height: 10,),
-
-        Container(
+       offer==null? Container()
+        :Container(
             margin: EdgeInsets.only(left: 20,right: 20),
-        child:  Row(children: [ Text(widget.offers[index]['category']['Name'].toString(), style: TextStyle(fontSize: 20,)),      
-           SizedBox(width: 10,),
-            Text("A vendre"),
-             ],),
+        child: Row(children: [
+              
+           offer['vente']==null?
+                   Container(margin: EdgeInsets.only(left: 0, right: 0),
+              child: Text(Languages.of(context).loc,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+              )
+              :Container(margin: EdgeInsets.only(left: 0, right: 0),
+              child: Text(Languages.of(context).vente,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+              ),
+               
+             
+               LGG=="English"?
+                  Text(offer['category']['Name'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
+                  :LGG=="Français"?
+                  Text(offer['category']['Name_fr'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
+                  :LGG=="Arabe"?
+                  Text(offer['category']['Name_ar'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500))
+                  :Container()
+                  
+              ],),
 
         ),
 

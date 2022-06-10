@@ -41,16 +41,33 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) =>
       Scaffold(
-        appBar: AppBar(
-          leading: Icon(
-            Icons.language,
-            color: Colors.white,
-          ),
-         // title: Text(Languages
-           //   .of(context)
-             // .appName),
-        ),
-        body: Container(
+        
+        body: 
+        
+        Column(
+              children: [
+                Stack(children: [
+                  
+                  
+                  Container(
+                      height: 76,
+                      
+                      //color: Colors.red,),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            
+                            image: AssetImage("assets/top_bar.png"),
+                            fit:BoxFit.cover
+                          ),
+                          //color: Color(0xffE5E7F3),
+                            
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(0.0),
+                            bottomRight: Radius.circular(0.0),
+                          ))
+                          
+                          ),
+                          Container(
           margin: EdgeInsets.all(30),
           child: Center(
             child: Column(
@@ -74,7 +91,7 @@ class HomeState extends State<Home> {
                  // Languages
                    //   .of(context)
                      // .labelInfo,
-                  style: TextStyle(fontSize: 20, color: Colors.grey),
+                  style: TextStyle(fontSize: 20, color: Colors.black),
                   textAlign: TextAlign.center,
 
                 ),
@@ -95,7 +112,7 @@ class HomeState extends State<Home> {
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                          await prefs.setBool('boolValue', true); 
                        
-                                 print('why you pressed me?');
+                                
                                 Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -111,6 +128,8 @@ class HomeState extends State<Home> {
             ),
           ),
         ),
+        
+                ])])
       );
 
   _createLanguageDropDown() {

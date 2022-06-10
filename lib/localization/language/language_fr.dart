@@ -391,4 +391,28 @@ class LanguageFr extends Languages {
   @override
   // TODO: implement title_of_offer
   String get title_of_offer => "Titre de l'offre";
+
+  @override
+  // TODO: implement infos_parag1
+  String get infos_parag1 => "Vous êtes à la recherche d'une agence dans votre wilaya ou ville ? Dans Imran on trouve toutes les coordonnées des agences  et des bureaux d’affaires spécialisés dans les transactions immobilières dans votre ville, commune ou daïra. Trouvez des professionnels et consultez des milliers d'annonces de vente et d'achat.";
+
+  @override
+  // TODO: implement infos_parag2
+  String get infos_parag2 => "Vous pouvez prendre contact avec une agence immobilière directement sur Imran afin d'entreprendre la démarche d'achat, de vente ou de location d'un appartement ou d'une maison en Algérie.";
+
+  @override
+  // TODO: implement voir_plus_de
+  String get voir_plus_de => "Voir plus de détails";
+
+  @override
+  // TODO: implement voir_les_offres_de
+  String get voir_les_offres_de => "Voir les offres de cet agence";
+
+  @override
+  // TODO: implement loffre_ne_contient
+  String get loffre_ne_contient => "L'offre ne contient pas d'image";
+
+  @override
+  // TODO: implement chercher
+  String get chercher => throw UnimplementedError();
 }

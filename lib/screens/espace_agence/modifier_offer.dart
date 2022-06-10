@@ -3,6 +3,7 @@ import 'dart:convert';
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_6/localization/language/languages.dart';
 import 'package:flutter_application_6/model/api.dart';
 import 'package:flutter_application_6/model/variables.dart';
 import 'package:flutter_application_6/screens/MapView.dart';
@@ -98,7 +99,7 @@ class _OfferDetailsState extends State<modify_offer> {
            Expanded(child:  SizedBox(),),
             Icon(Icons.phone,color: Colors.white,),
             SizedBox(width: 10,),
-            Text("Telephone",style:  TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+            Text(Languages.of(context).tel,style:  TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
           Expanded(child:  SizedBox(),)
           ],),
         )),
@@ -140,7 +141,7 @@ query:
             Expanded(child:  SizedBox(),),
             Icon(Icons.email,color: Colors.white,),
             SizedBox(width: 10,),
-            Text("Email",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+            Text(Languages.of(context).email,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
            Expanded(child:  SizedBox(),)
           ],),
         )),
@@ -184,7 +185,7 @@ query:
         children: <Widget>[
           Align(
             alignment: Alignment.topCenter,
-            child: offer != null ? _buildFormFields() : Text('Loading...'),
+            child: offer != null ? _buildFormFields() : Text(Languages.of(context).loading),
           )
         ],
       ),
@@ -212,10 +213,10 @@ query:
             Row(children: [
            offer['vente']==null?
                    Container(margin: EdgeInsets.only(left: 20, right: 20),
-              child: Text("Location",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+              child: Text(Languages.of(context).loc,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
               )
               :  Container(margin: EdgeInsets.only(left: 20, right: 20),
-              child: Text("Vente",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+              child: Text(Languages.of(context).vente,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
               ),
                
                offer['category_id']==1?
@@ -1124,7 +1125,7 @@ showModalBottomSheet(
                      ],)
                      ),   
                      
-                                 
+                             
                 ],
               ),
               ),

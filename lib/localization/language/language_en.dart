@@ -390,6 +390,30 @@ class LanguageEn extends Languages {
   @override
   // TODO: implement title_of_offer
   String get title_of_offer => "Title of offer";
+
+  @override
+  // TODO: implement infos_parag1
+  String get infos_parag1 => "Looking for an agency in your state or city? In Imran you will find all the contact details of agencies and business offices specializing in real estate transactions in your city, department or municipality. Check out thousands of sales and purchase announcements.";
+
+  @override
+  // TODO: implement infos_parag2
+  String get infos_parag2 => "You can contact a real estate agency directly on Imran to start the process of buying, selling or renting an apartment or house in Algeria.";
+
+  @override
+  // TODO: implement voir_plus_de
+  String get voir_plus_de => "See more details";
+
+  @override
+  // TODO: implement voir_les_offres_de
+  String get voir_les_offres_de => "See the offers of this agency";
+
+  @override
+  // TODO: implement loffre_ne_contient
+  String get loffre_ne_contient => "The offer does not contain an image";
+
+  @override
+  // TODO: implement chercher
+  String get chercher => throw UnimplementedError();
 }
 
   

@@ -8,13 +8,16 @@ import 'package:flutter_application_6/model/api.dart';
 import 'package:flutter_application_6/model/variables.dart';
 import 'package:flutter_application_6/screens/espace_agence/switching_agence.dart';
 import 'package:flutter_application_6/screens/espace_client/dep.dart';
+import 'package:flutter_application_6/screens/espace_client/infos_gen.dart';
 import 'package:flutter_application_6/screens/espace_client/inscription_connexion.dart';
 import 'package:flutter_application_6/screens/espace_client/page_agences.dart';
 import 'package:flutter_application_6/screens/espace_client/page_changeL.dart';
+import 'package:flutter_application_6/screens/espace_client/page_profile.dart';
 import 'package:flutter_application_6/screens/espace_client/pagefiltre.dart';
 import 'package:flutter_application_6/screens/espace_client/pages_favoris.dart';
 import 'package:flutter_application_6/screens/espace_client/switching_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class page_parametres extends StatefulWidget {
   const page_parametres({Key key}) : super(key: key);
@@ -238,6 +241,25 @@ var user ;
                              InkWell(
                         //highlightColor: Colors.transparent,
                         //splashColor: Colors.transparent,
+                        onTap: () async{
+                          
+          final Uri _emailurl = Uri(
+            scheme: 'mailto',
+            path: "Imran@gmail.com",
+          query: 
+              'subject=A propos de l\'application Imran '.replaceAll(" ", "%20")
+            );
+
+  
+      if( await canLaunch(_emailurl.toString())){
+      await launch(_emailurl.toString());
+    }else{
+      throw 'Could not launch $_emailurl';
+    }
+
+
+            
+                        },
                         child: Container(
                             height: 60,
                             margin: const EdgeInsets.only(
@@ -309,6 +331,15 @@ var user ;
                 height: 20,
               ),
              InkWell(
+
+
+
+               
+                 onTap: (() {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => infos()));
+  
+                    }),
+              
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         child: Container(
@@ -510,7 +541,9 @@ var user ;
                   user==null?
                  InkWell(
                    onTap: (){  
-                     print("voir le profil");
+    
+
+                     print("voir le profil ");
                    },
                    child: 
                    
@@ -519,9 +552,10 @@ var user ;
                    )
 
 
-                   : InkWell(
+                   :InkWell(
                    onTap: (){
                      print("voir le profil");
+                      Navigator.push(context,MaterialPageRoute(builder: (context) =>profile()));
                    },
                    child: 
                    Text(user['name'],style: TextStyle(fontWeight:FontWeight.bold,fontSize: 17),)
@@ -706,8 +740,21 @@ var user ;
                       height: 5,
                     ),
                              InkWell(
-                        //highlightColor: Colors.transparent,
-                        //splashColor: Colors.transparent,
+                        onTap: ()async{
+                            final Uri _emailurl = Uri(
+            scheme: 'mailto',
+            path: "Imran@gmail.com",
+          query: 
+              'subject=A propos de l\'application Imran '.replaceAll(" ", "%20")
+            );
+
+  
+      if( await canLaunch(_emailurl.toString())){
+      await launch(_emailurl.toString());
+    }else{
+      throw 'Could not launch $_emailurl';
+    }
+                        },
                         child: Container(
                             height: 60,
                             margin: const EdgeInsets.only(
@@ -785,6 +832,12 @@ var user ;
                 height: 20,
               ),
              InkWell(
+
+                    onTap: (() {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => infos()));
+  
+                    }),
+
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         child: Container(
@@ -849,6 +902,7 @@ var user ;
                         splashColor: Colors.transparent,
                         onTap: () {
                           setState(() {
+                            
                             deconnexion();
                             agence_conncet=false;
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>switching_page()));
@@ -874,7 +928,7 @@ var user ;
                             ), //
                                   child: Center(
                                     child: Text(
-                                      'Se déconnceter',
+                                       Languages.of(context).log_out,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -913,7 +967,9 @@ var user ;
          token = await pref.getString('token');
          
               print(token);
+ if(client_conncet==false){
 
+    }else{
       var data = new Map<String, dynamic>();
             if (token != null && token.length > 0) {
   token = token.substring(1, token.length - 1);
@@ -960,4 +1016,5 @@ var user ;
  
  
    }
+  }
 }

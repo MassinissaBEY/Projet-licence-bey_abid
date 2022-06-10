@@ -40,6 +40,7 @@ dev_dependencies:
 
   #shared_preferences: ^0.5.7+3
   
+  
 
 
 flutter:
@@ -78,4 +79,7 @@ flutter:
     - assets/top_bar_agence.png
     - assets/Imran.png
     - assets/Imran_client.png
-    
+    - assets/splash_screen1.png
+    - assets/logo_splash_screen.png
+    - assets/splach_screen2.png
+    - assets/splash_screen3.png

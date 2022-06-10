@@ -302,7 +302,7 @@ if (ib == 1000 && nb>1000) {
                           toggleBorderColor: (Colors.grey[350]),
                           // toggleColor: (Colors.white)!,
                           toggleColor: (Color.fromARGB(255, 73, 80, 87)),
-                          activeTextColor: Colors.white,
+                          activeTextColor: Colors.white, 
                           inactiveTextColor: Colors.black,
                           leftDescription: Languages.of(context).vente,
                           rightDescription: Languages.of(context).loc,

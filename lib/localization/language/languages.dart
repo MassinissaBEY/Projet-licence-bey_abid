@@ -204,6 +204,19 @@ abstract class Languages {
 
   String get submit;
 
+  String get infos_parag1;
+
+  String get infos_parag2;
+
+  String get voir_plus_de;
+
+  String get voir_les_offres_de;
+
+  String get loffre_ne_contient;
+
+  String get chercher;
+  
+
 
 
 

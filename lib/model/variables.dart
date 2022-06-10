@@ -110,6 +110,8 @@ void deconnexion () async{
     agence_conncet = prefs.getBool('bool_agence');
      prefs.setBool('bool_client', false);
     client_conncet = prefs.getBool('bool_client');
+     SharedPreferences pref = await SharedPreferences.getInstance();         
+    await pref.setString('token', ('djdzk'));
  }
 
 
@@ -157,6 +159,8 @@ List<Placemark> placemarks = await placemarkFromCoordinates(lat, lang);
   String address = "${name}, ${subLocality}, ${locality}, ${administrativeArea} ${postalCode}, ${country}";
         adresseController.text = address;
         }
+
+
 
 
 

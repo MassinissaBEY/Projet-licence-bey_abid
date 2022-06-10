@@ -80,7 +80,7 @@ Future<void> _getUserLocation() async {
  @override
   void initState() {
     super.initState();
-    _getUserLocation();
+    
     if(lastPosition3!=null){
        _setPosition(LatLng(lastPosition2.latitude,lastPosition2.longitude));
       final _center=lastPosition3;
@@ -152,7 +152,7 @@ Future<void> _getUserLocation() async {
           child:
       Container(
         padding: EdgeInsets.all(15),
-        width: 170,
+        width: 171,
           decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
         color: Colors.blueAccent,

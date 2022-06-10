@@ -5,9 +5,11 @@ import 'dart:convert';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_6/localization/language/languages.dart';
 import 'package:flutter_application_6/model/api.dart';
 import 'package:flutter_application_6/model/variables.dart';
 import 'package:flutter_application_6/screens/espace_agence/switching_agence.dart';
+import 'package:flutter_application_6/screens/espace_client/affichage_result_filtre.dart';
 import 'package:flutter_application_6/screens/espace_client/dep.dart';
 import 'package:flutter_application_6/screens/espace_client/page_agences.dart';
 import 'package:flutter_application_6/screens/espace_client/page_param.dart';
@@ -41,8 +43,11 @@ bool pressAttention = true;
 var categories = [];
 class pagefiltreStateState extends State<pagefiltreState> {
   List<bool> ess = [false, false, false, false];
-  final myController1 = TextEditingController();
-  final myController2 = TextEditingController();
+  var myController1 = TextEditingController();
+  var myController2 = TextEditingController();
+  var myController3 = TextEditingController();
+  var myController4 = TextEditingController();
+  bool vente = true;
   bool a = false;
   bool b = false;
   bool c = false;
@@ -52,53 +57,64 @@ class pagefiltreStateState extends State<pagefiltreState> {
   bool g = true;
   bool h = false;
   bool i = false;
-  bool j = true;
-  bool k = false;
+ 
+  bool k = true;
   bool l = false;
   String var1 = "Sans importance";
   String var2 = "Sans importance";
   String var3 = "Sans importance";
-  String var4 = "Sans importance";
+  String var4 = "Sans";
   String var5 = "Tous Les Prix";
   bool var6 = false;
+
   String var7 = "";
   int var8 = 0;
   String var9 = "";
   int var10 = 0;
   String var11 = "Tous Les Prix";
+
+  String var12 = "";
+  int var13 = 0;
+  String var14 = "";
+  int var15 = 0;
+  String var16 = "Toutes Les Superficies";
+
    List<bool> data = [true, false, false, false , false];
   String text = "gr";
    String category_id = "1";
+  var _offers;
 
 
 
 
-  void construction(bool X, bool Y, bool Z) {
-    if (X && Y && Z) {
-      var1 = "2-façades,3-façades,4-façades";
-    }
-    if (X && Y && !Z) {
-      var1 = "2-façades,3-façades";
-    }
-    if (X && !Y && Z) {
-      var1 = "2-façades,4-façades";
-    }
-    if (!X && Y && Z) {
-      var1 = "3-façades,4-façades";
-    }
-    if (X && !Y && !Z) {
-      var1 = "2-façades";
-    }
-    if (!X && Y && !Z) {
-      var1 = "3-façades";
-    }
-    if (!X && !Y && Z) {
-      var1 = "4-façades";
-    }
-    if (!X && !Y && !Z) {
-      var1 = "Sans-importance";
-    }
-  }
+  // void construction(bool X, bool Y, bool Z) {
+  //   if (X && Y && Z) {
+  //     var1 = "2-façades,3-façades,4-façades";
+  //   }
+  //   if (X && Y && !Z) {
+  //     var1 = "2-façades,3-façades";
+  //   }
+  //   if (X && !Y && Z) {
+  //     var1 = "2-façades,4-façades";
+  //   }
+  //   if (!X && Y && Z) {
+  //     var1 = "3-façades,4-façades";
+  //   }
+  //   if (X && !Y && !Z) {
+  //     var1 = "2-façades";
+  //   }
+  //   if (!X && Y && !Z) {
+  //     var1 = "3-façades";
+  //   }
+  //   if (!X && !Y && Z) {
+  //     var1 = "4-façades";
+  //   }
+  //   if (!X && !Y && !Z) {
+  //     var1 = "Sans-importance";
+  //   }
+  // }
+
+
 
   void construction2() {
     if (var7 == "") {
@@ -123,6 +139,53 @@ class pagefiltreStateState extends State<pagefiltreState> {
     }
   }
 
+
+
+
+void construction4() {
+    if (var12 == "") {
+      var13 = 0;
+      if (var12 == "") {
+        var16 = "Toutes Les Superficies";
+      }
+      construction5();
+    } else {
+      var13 = int.parse(var12);
+      construction5();
+    }
+    if (var14 == "") {
+      var15 = 0;
+      if (var14 == "") {
+        var16= "Toutes Les Superficies";
+      }
+      construction5();
+    } else {
+      var15 = int.parse(var14);
+      construction5();
+    }
+  }
+  
+
+
+void construction5() {
+    if (var13 > var15) {
+      var16 = ('à partir de ' + var13.toString() + ' m²');
+    }
+    if (var13 > 0 && var15 > var13) {
+      var16 = ("entre " +
+          var13.toString() +
+          "-" +
+          var15.toString() +
+          " m²");
+    }
+    if (var15 > 0 && var13 == 0) {
+      var16 = "à " + var15.toString() + " m²";
+    }
+}
+
+
+
+
   void construction3() {
     if (var8 > var10) {
       var11 = ('à partir de ' + var8.toString() + ' Millions cent');
@@ -138,6 +201,8 @@ class pagefiltreStateState extends State<pagefiltreState> {
       var11 = "à " + var10.toString() + " millions cent";
     }
   }
+
+
 
   @override
 void initState() {
@@ -203,14 +268,16 @@ void initState() {
                           toggleColor: (Colors.white),
                           activeTextColor: Color.fromARGB(255, 2, 62, 138),
                           inactiveTextColor: Colors.black,
-                          leftDescription: 'Vente',
-                          rightDescription: 'Location',
+                          leftDescription: Languages.of(context).vente,
+                          rightDescription:  Languages.of(context).loc,
 
                           onLeftToggleActive: () {
                             print('left toggle activated');
+                            vente = true;
                           },
                           onRightToggleActive: () {
                             print('right toggle activated');
+                            vente = false;
                           },
                         ),
                       ),
@@ -269,7 +336,7 @@ void initState() {
                                   SizedBox(
                                     height: 6,
                                   ),
-                                  Text('Maison',
+                                  Text( Languages.of(context).maison,
                                       style: TextStyle(
                                           color: data[0]
                                      
@@ -323,7 +390,7 @@ void initState() {
 
                                    children: [
                                    
-                                      Text('Appartement',
+                                      Text(Languages.of(context).apart,
                                       style: TextStyle(
                                           color: data[1]
                                               ? Color.fromARGB(255, 2, 62, 138)
@@ -386,7 +453,7 @@ void initState() {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                        
-                                  Text('Garage',
+                                  Text( Languages.of(context).garage,
                                       style: TextStyle(
                                           color: data[2]
                                               ? Color.fromARGB(255, 2, 62, 138)
@@ -436,7 +503,7 @@ void initState() {
                                   SizedBox(
                                     height: 1,
                                   ),
-                                  Text('Villa',
+                                  Text( Languages.of(context).villa,
                                       style: TextStyle(
                                           color: data[3]
                                               ? Color.fromARGB(255, 2, 62, 138)
@@ -484,7 +551,7 @@ void initState() {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Text('Other',
+                                  Text( Languages.of(context).other,
                                       style: TextStyle(
                                           color: data[4]
                                               ? Color.fromARGB(255, 2, 62, 138)
@@ -531,13 +598,13 @@ void initState() {
               child:
                ExpansionTile(
                   title: Text(
-                    "Categories",
+                    Languages.of(context).categories,
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                     // style: TextStyle(color: Color.fromARGB(255, 73, 80, 87)),
                   ),
                   subtitle: Text(
-                    ('List of categorys'),
+                    (Languages.of(context).list_of_cat),
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -575,7 +642,7 @@ void initState() {
                 /** CheckboxListTile Widget **/
                 child: ExpansionTile(
                   title: Text(
-                    "Prix",
+                    Languages.of(context).price,
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                     // style: TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
@@ -694,167 +761,10 @@ void initState() {
                     )
                   ],
                 )),
-            Container(
-              margin: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      offset: const Offset(0, 5),
-                      blurRadius: 5.0,
-                      spreadRadius: 0)
-                ],
-                color: Color.fromARGB(255, 247, 247, 247),
-                border: Border.all(color: Color.fromARGB(255, 2, 62, 138)),
-                borderRadius: BorderRadius.circular(5),
-              ),
 
-              /** CheckboxListTile Widget **/
-              child: ExpansionTile(
-                  title: Text(
-                    "Construction",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    var1,
-                    style: TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                  ),
-                  children: <Widget>[
-                    CheckboxListTile(
-                      activeColor: Color.fromARGB(255, 2, 62, 138),
-                      title: Text(
-                        '2-façades',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                      ),
-                      value: a,
-                      onChanged: (bool value) {
-                        setState(() {
-                          a = !a;
-                          construction(a, b, c);
-                        });
-                      },
-                    ),
-                    CheckboxListTile(
-                      activeColor: Color.fromARGB(255, 2, 62, 138),
-                      title: Text(
-                        '3-façades',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                      ),
-                      value: b,
-                      onChanged: (bool value) {
-                        setState(() {
-                          b = !b;
-                          construction(a, b, c);
-                        });
-                      },
-                    ),
-                    CheckboxListTile(
-                      activeColor: Color.fromARGB(255, 2, 62, 138),
-                      title: Text(
-                        '4-façades',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                      ),
-                      value: c,
-                      onChanged: (bool value) {
-                        setState(() {
-                          c = !c;
-                          construction(a, b, c);
-                        });
-                      },
-                    ),
-                  ]), //CheckboxListTile
-            ),
+
+
             Container(
-              margin: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      offset: const Offset(0, 5),
-                      blurRadius: 5.0,
-                      spreadRadius: 0)
-                ],
-                color: Color.fromARGB(255, 247, 247, 247),
-                border: Border.all(color: Color.fromARGB(255, 2, 62, 138)),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              /** CheckboxListTile Widget **/
-              child: ExpansionTile(
-                  title: Text(
-                    "Jardin",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    var2,
-                    style: TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                  ),
-                  children: <Widget>[
-                    CheckboxListTile(
-                      activeColor: Color.fromARGB(255, 2, 62, 138),
-                      title: Text(
-                        'Sans importance',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                      ),
-                      value: d,
-                      onChanged: (bool value) {
-                        setState(() {
-                          if (d == false) {
-                            d = !d;
-                          }
-                          e = false;
-                          f = false;
-                          var2 = "Sans importance";
-                        });
-                      },
-                    ),
-                    CheckboxListTile(
-                      activeColor: Color.fromARGB(255, 2, 62, 138),
-                      title: Text(
-                        'Présent',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                      ),
-                      value: e,
-                      onChanged: (bool value) {
-                        setState(() {
-                          if (e == false) {
-                            e = !e;
-                          }
-                          d = false;
-                          f = false;
-                          var2 = "Présent";
-                        });
-                      },
-                    ),
-                    CheckboxListTile(
-                      activeColor: Color.fromARGB(255, 2, 62, 138),
-                      title: Text(
-                        'Pas présent',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                      ),
-                      value: f,
-                      onChanged: (bool value) {
-                        setState(() {
-                          if (f == false) {
-                            f = !f;
-                          }
-                          d = false;
-                          e = false;
-                          var2 = "Pas présent";
-                        });
-                      },
-                    ),
-                  ]), //CheckboxListTile
-            ),
-            Visibility(
-              child: Container(
                 margin: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -867,81 +777,132 @@ void initState() {
                   color: Color.fromARGB(255, 247, 247, 247),
                   border: Border.all(color: Color.fromARGB(255, 2, 62, 138)),
                   borderRadius: BorderRadius.circular(5),
-                ),
+                ), //BoxDecoration
 
                 /** CheckboxListTile Widget **/
                 child: ExpansionTile(
-                    title: Text(
-                      "Garage",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      var3,
-                      style: TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                    ),
-                    children: <Widget>[
-                      CheckboxListTile(
-                        activeColor: Color.fromARGB(255, 2, 62, 138),
-                        title: Text(
-                          'Sans importance',
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
+                  title: Text(
+                    Languages.of(context).Superficie_add_offer,
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                    // style: TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
+                  ),
+                  subtitle: Text(
+                    var16,
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 2, 62, 138)),
+                  ),
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(child: SizedBox()),
+                        Container(
+                          // margin: const EdgeInsets.only(
+                          //   left: 20.0,
+                          // ),
+                          child: Text(
+                            "de",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 2, 62, 138)),
+                          ),
                         ),
-                        value: g,
-                        onChanged: (bool value) {
-                          setState(() {
-                            if (g == false) {
-                              g = !g;
-                            }
-                            h = false;
-                            i = false;
-                            var3 = "Sans importance";
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        activeColor: Color.fromARGB(255, 2, 62, 138),
-                        title: Text(
-                          'Présent',
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
+                        Expanded(child: SizedBox()),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              //left: 20.0,
+                              bottom: 30),
+                          padding: const EdgeInsets.only(
+                            top: 15,
+                          ),
+                          height: 50,
+                          width: 120,
+                          child: TextFormField(
+                                 
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                hintText: ' 190 m²',
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                hintStyle: TextStyle(
+                                    color: Color.fromARGB(144, 151, 172, 196)),
+                              ),
+                              controller: myController3,
+
+                              //   controller: myController,
+                              //  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]')),
+                                // FilteringTextInputFormatter.deny(RegExp(r'[.{1}]')),
+                              ],
+                              // keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              keyboardType: TextInputType.phone,
+                              onChanged: (String value) {
+                                setState(() {
+                                  var16 = value;
+                                  construction4();
+                                });
+                              }),
                         ),
-                        value: h,
-                        onChanged: (bool value) {
-                          setState(() {
-                            if (h == false) {
-                              h = !h;
-                            }
-                            g = false;
-                            i = false;
-                            var3 = "Présent";
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        activeColor: Color.fromARGB(255, 2, 62, 138),
-                        title: Text(
-                          'Pas présent',
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
+                        Expanded(child: SizedBox()),
+                        Container(
+                          // margin: const EdgeInsets.only(
+                          //   left: 20.0,
+                          // ),
+                          child: Text(
+                            "à",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 2, 62, 138)),
+                          ),
                         ),
-                        value: i,
-                        onChanged: (bool value) {
-                          setState(() {
-                            if (i == false) {
-                              i = !i;
-                            }
-                            g = false;
-                            h = false;
-                            var3 = "Pas présent";
-                          });
-                        },
-                      ),
-                    ]), //CheckboxListTile
-              ),
-              visible: data[0] || data[2],
-            ),
+                        Expanded(child: SizedBox()),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              //left: 20,
+                              //right: 30.0,
+                              bottom: 30),
+                          padding: const EdgeInsets.only(
+                            top: 15,
+                          ),
+                          height: 50,
+                          width: 120,
+                          child: TextFormField(
+                            onChanged: (String value) {
+                              setState(() {
+                                var14 = value;
+                                construction4();
+                              });
+                            },
+
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              hintText: '240 m² ',
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              hintStyle: TextStyle(
+                                  color: Color.fromARGB(144, 151, 172, 196)),
+                            ),
+                            controller: myController4,
+                            //   controller: myController,
+                            //  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9]')),
+                              // FilteringTextInputFormatter.deny(RegExp(r'[.{1}]')),
+                            ],
+                            // keyboardType: TextInputType.numberWithOptions(decimal: true),
+                            keyboardType: TextInputType.phone,
+                          ),
+                        ),
+                        Expanded(child: SizedBox()),
+                      ],
+                    )
+                  ],
+                )),
+
+            
             Container(
               margin: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
               decoration: BoxDecoration(
@@ -959,7 +920,7 @@ void initState() {
               /** CheckboxListTile Widget **/
               child: ExpansionTile(
                   title: Text(
-                    "Meublé",
+                    Languages.of(context).meubles,
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
@@ -968,29 +929,11 @@ void initState() {
                     style: TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
                   ),
                   children: <Widget>[
+                   
                     CheckboxListTile(
                       activeColor: Color.fromARGB(255, 2, 62, 138),
                       title: Text(
-                        'Sans importance',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
-                      ),
-                      value: j,
-                      onChanged: (bool value) {
-                        setState(() {
-                          if (j == false) {
-                            j = !j;
-                          }
-                          k = false;
-                          l = false;
-                          var4 = "Sans importance";
-                        });
-                      },
-                    ),
-                    CheckboxListTile(
-                      activeColor: Color.fromARGB(255, 2, 62, 138),
-                      title: Text(
-                        'Présent',
+                        'Sans',
                         style:
                             TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
                       ),
@@ -1000,16 +943,16 @@ void initState() {
                           if (k == false) {
                             k = !k;
                           }
-                          j = false;
+                         
                           l = false;
-                          var4 = "Présent";
+                          var4 = "Sans";
                         });
                       },
                     ),
                     CheckboxListTile(
                       activeColor: Color.fromARGB(255, 2, 62, 138),
                       title: Text(
-                        'Pas présent',
+                        'Avec',
                         style:
                             TextStyle(color: Color.fromARGB(255, 2, 62, 138)),
                       ),
@@ -1019,9 +962,9 @@ void initState() {
                           if (l == false) {
                             l = !l;
                           }
-                          j = false;
+                          
                           k = false;
-                          var4 = "Pas présent";
+                          var4 = "Avec";
                         });
                       },
                     ),
@@ -1042,7 +985,10 @@ void initState() {
                 borderRadius: BorderRadius.circular(5),
               ),
               child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                      submit();    
+                      
+                  },
                   child: Container(
                       height: 63,
                       child: Center(
@@ -1152,11 +1098,26 @@ _loadCategories() async {
 Widget _buildOfferItem(BuildContext context, int index) {
     return  CheckboxListTile(
                       activeColor: Color.fromARGB(255, 73, 80, 87),
-                      title: Text(
+                      title:  LGG=="English"?
+                      Text(
                          categories[index]['Name'],
                         style:
                             TextStyle(color: Color.fromARGB(255, 73, 80, 87)),
-                      ),
+                      )
+                      :LGG=="Français"?
+                      Text(
+                         categories[index]['Name_fr'],
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 73, 80, 87)),
+                      )
+                      :LGG=="Arabe"?
+                      Text(
+                         categories[index]['Name_ar'],
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 73, 80, 87)),
+                      )
+                      :null,
+                       
                       value:  name_categories[index],
                       onChanged: (bool name_categories) {
                         setState(() {
@@ -1242,11 +1203,17 @@ void indexes(int e){
 
 
 
-Future<void> submit () async {
+   submit () async {
 
   var data = new Map<String, String>();
+
+    data['category'] = category_id.toString();
     data['min'] = myController1.text;
     data['max'] = myController2.text;
+    if(vente==true){
+      data['vente']=1.toString();
+    }
+    //data['max'] = myController2.text;
     // data['description'] = descriptionController.text;
     // data['nbr_chambres']=chambresController.text;
     // data['superficie']=superficieController.text;
@@ -1333,18 +1300,18 @@ Future<void> submit () async {
 
 
     //data['image'] = _image.path;
-
-    var response = await Api().postData(data, '/offer');
+   
+    var response = await Api().postData(data, '/offer/recherche');
     //var response = await Api().postData(data, '/offer');
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       setState(() {
-         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("offre correctement ajoutée")));
-           Navigator.push(
-                     context,
-            MaterialPageRoute(builder: (context) => switching_page()),
-              );
-
+             print(category_id);
+           _offers = json.decode(response.body);
+            print(_offers);
+            print(myController1.text);
+            print(_offers.length.toString());
+    Navigator.push(context, MaterialPageRoute( builder: (context) =>result_filtre(data: data,)));
 /*
     titleController=null;
     priceController=null;
